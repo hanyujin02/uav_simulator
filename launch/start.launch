@@ -68,7 +68,8 @@
   </include>
 
 
-   <!-- send robot urdf to param server -->
+  <!-- send robot urdf to param server -->
+  <env name="USE_GPU" value="true"/>
   <param name="robot_description" command="cat '$(find uav_simulator)/urdf/quadcopter_gpu.urdf'" />
 
   <!-- push robot_description to factory and spawn robot in gazebo at the origin, change x,y,z arguments to spawn in a different position -->
