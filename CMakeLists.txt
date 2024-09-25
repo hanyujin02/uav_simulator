@@ -161,7 +161,7 @@ add_library(obstaclePathPlugin src/obstaclePathPlugin.cc)
 
 add_library(livox_laser SHARED src/livox_lidar/livox_points_plugin.cpp src/livox_lidar/livox_ode_multiray_shape.cpp)
 
-add_library(livox_laser_gpu SHARED src/livox_lidar/livox_gpu_points_plugin.cpp)
+# add_library(livox_laser_gpu SHARED src/livox_lidar/livox_gpu_points_plugin.cpp)
 
 
 ## Add cmake target dependencies of the library
@@ -206,11 +206,11 @@ set_target_properties(livox_laser
     ${PROJECT_SOURCE_DIR}/plugins
 )
 
-set_target_properties(livox_laser_gpu
-    PROPERTIES 
-    LIBRARY_OUTPUT_DIRECTORY
-    ${PROJECT_SOURCE_DIR}/plugins
-)
+# set_target_properties(livox_laser_gpu
+#     PROPERTIES 
+#     LIBRARY_OUTPUT_DIRECTORY
+#     ${PROJECT_SOURCE_DIR}/plugins
+# )
 
 
 ## Add cmake target dependencies of the executable
@@ -240,7 +240,7 @@ target_link_libraries(obstaclePathPlugin
 
 target_link_libraries(livox_laser ${catkin_LIBRARIES} RayPlugin libprotobuf.so.9)
 
-target_link_libraries(livox_laser_gpu ${catkin_LIBRARIES} GpuRayPlugin)
+# target_link_libraries(livox_laser_gpu ${catkin_LIBRARIES} GpuRayPlugin)
 
 
 
