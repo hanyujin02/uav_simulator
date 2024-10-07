@@ -86,7 +86,7 @@
     <arg name="pose_topic" value="/CERLAB/quadcopter/pose" />
   </include>
 
-  <node name="keyboard_control" pkg="uav_simulator" type="keyboard_control" />
+  <!-- <node name="keyboard_control" pkg="uav_simulator" type="keyboard_control" /> -->
 
   <!-- <include file="$(find uav_simulator)/launch/rviz.launch"></include> -->
 
