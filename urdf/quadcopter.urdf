@@ -143,9 +143,9 @@
 			  </ray>
           <visualize>false</visualize>
 		      <samples>20000</samples>
-		      <downsample>2</downsample>
+		      <downsample>10</downsample>
 		      <csv_file_name>mid360.csv</csv_file_name>
-          <publish_pointcloud_type>2</publish_pointcloud_type>
+          <publish_pointcloud_type>0</publish_pointcloud_type>
 		      <ros_topic>/livox/lidar</ros_topic>
           <frameName>base_link</frameName>
           <collision>
