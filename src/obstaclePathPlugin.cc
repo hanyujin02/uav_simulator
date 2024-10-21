@@ -38,6 +38,13 @@ namespace gazebo
         this->loop = false;
       }
 
+      if (this->sdf->HasElement("sin")){
+        this->sinWave = _sdf->Get<bool>("sin");
+      }
+      else{
+        this->sinWave = false;
+      }
+
       // read path:
       this->path.clear();
       if (this->sdf->HasElement("path")){
@@ -176,7 +183,17 @@ namespace gazebo
         }
       }
 
+      std::vector<std::vector<double>> newTraj;
+      std::vector<double> newTime;
+      double dt = 0.01;
+      if (this->sinWave){
+        // this->sine(dt, this->pathWithAngle, this->timeKnot, newTraj, newTime);
+        this->lls(dt, this->pathWithAngle, this->timeKnot, newTraj, newTime, 4);
+        this->pathWithAngle = newTraj;
+        this->timeKnot = newTime;
 
+      }
+      
 
       gazebo::common::PoseAnimationPtr anim(new gazebo::common::PoseAnimation("obstaclePathLoop", totalTime, true));
       gazebo::common::PoseKeyFrame *key;
@@ -197,6 +214,121 @@ namespace gazebo
         // // set the animation
         _parent->SetAnimation(anim);
     }
+
+    void DynamicObstacle::linear(const double &ts, const std::vector<std::vector<double>> &path, const std::vector<double> &time, std::vector<std::vector<double>> &traj, std::vector<double> &t){
+      traj.clear();
+      t.clear();
+      double timeStamp = time[0];
+      for(int i=0;i<int(path.size()-1);i++){
+        std::vector<double> currP = path[i];
+        std::vector<double> nextP = path[i+1];
+        double timeStep = time[i+1]-time[i];
+        for (int j=0;j<int(timeStep/ts);j++){
+          std::vector<double> p(4);
+          for (int k=0;k<int(currP.size());k++){
+            p[k] = currP[k] + (nextP[k]-currP[k])/int(timeStep/ts)*j;
+          }
+          traj.push_back(p);
+          t.push_back(timeStamp);
+          timeStamp += ts;
+        }
+      }
+    }
+
+    void DynamicObstacle::sine(const double &ts, const std::vector<std::vector<double>> &path, const std::vector<double> &time, std::vector<std::vector<double>> &traj, std::vector<double> &t){
+      traj.clear();
+      t.clear();
+      double timeStamp = time[0];
+      std::vector<std::vector<double>> sine;
+      
+      for(int i=0;i<int(path.size()-1);i++){
+        std::vector<double> currP = path[i];
+        std::vector<double> nextP = path[i+1];
+        double timeStep = (time[i+1]-time[i]);
+        for(int j=0;j<int(timeStep/ts);j++){
+          // std::vector<double> p{0.5*sin((j*ts)*(2*M_PI)/(currP[0]-nextP[0])), 0.5*sin((j*ts)*(2*M_PI)/(currP[1]-nextP[1])), 0, 0};
+          std::vector<double> p{0.5*sin((j*ts)*(2*M_PI)/(currP[1]-nextP[1])), 0, 0, 0};
+          sine.push_back(p);
+        }
+        for (int j=0;j<int(timeStep/ts);j++){
+          std::vector<double> p(4);
+          for (int k=0;k<int(currP.size());k++){
+            p[k] = currP[k] + (nextP[k]-currP[k])/int(timeStep/ts)*j + sine[j][k];
+          }
+          traj.push_back(p);
+          t.push_back(timeStamp);
+          timeStamp += ts;
+        }
+      }
+    }
+
+    void DynamicObstacle::lls(const double &ts, const std::vector<std::vector<double>> &path, const std::vector<double> &time, std::vector<std::vector<double>> &traj, std::vector<double> &t, const int &order){
+		  double dt = ts;
+			int numberPoints = path.size();
+			Eigen::MatrixXd x,y,tt;
+			
+			x.resize(numberPoints,1);
+			y.resize(numberPoints,1);
+			tt.resize(numberPoints,1);
+			for (int j = 0; j < numberPoints; j++)
+			{
+				x(j,0) = path[j][0];
+				y(j,0) = path[j][1];
+				tt(j,0) = time[j];
+			}
+			Eigen::MatrixXd X;
+			X.resize(int(time.back()/dt), 1);
+			for (int j=0;j<int(time.back()/dt);j++){
+				X(j,0) = j*dt;
+			}
+      
+			Eigen::MatrixXd predx = fit(tt,x,X,order);
+			Eigen::MatrixXd predy = fit(tt,y,X,order);
+
+      traj.clear();
+      t.clear();
+			for (int j=0; j<predx.rows();j++){
+        std::vector<double> p;
+        if (j+1<predx.rows()){
+          p = std::vector<double>{predx(j,0),predy(j,0),path[0][2],atan2(predy(j+1,0)-predy(j,0), predx(j+1,0)-predx(j,0))};
+        }
+        else{
+          p = std::vector<double>{predx(j,0),predy(j,0),path[0][2],0};
+        }
+        traj.push_back(p);
+        t.push_back(j*dt);
+			}
+	  }
+
+  Eigen::MatrixXd DynamicObstacle::fit(const Eigen::MatrixXd &x, const Eigen::MatrixXd &y, const Eigen::MatrixXd &px, const int &order){
+    int numIter = 10;
+    Eigen::MatrixXd vx = vandermonde(x,order);
+    Eigen::MatrixXd Im;
+    Im.resize(order+1, order+1);
+    Im.setIdentity();
+    Im(order, order) = 0;
+    double lambda = 0.01;
+    Eigen::MatrixXd Xt = vx.transpose();
+    Eigen::MatrixXd XtX = Xt*vx + lambda*Im;
+    Eigen::MatrixXd XtXinverse = XtX.inverse();
+    Eigen::MatrixXd Xty = Xt*y;
+    Eigen::MatrixXd w = XtXinverse*Xty;
+    Eigen::MatrixXd X = vandermonde(px,order);
+    
+    Eigen::MatrixXd predy = X*w;
+    return predy;
+  }
+
+  Eigen::MatrixXd DynamicObstacle::vandermonde(const Eigen::MatrixXd &x, const int &order){
+      Eigen::MatrixXd X;
+      X.resize(x.rows(),order+1);
+      for (int j=0; j<x.rows(); j++){
+          for (int k=0; k<order+1; k++){
+              X(j,k) = pow(x(j,0),k);
+          }
+      }
+      return X;
+  }
 
     std::vector<double>& DynamicObstacle::interpolateAngle(double start, double end, double dx){
       static std::vector<double> interpolation;

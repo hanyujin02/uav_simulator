@@ -6,6 +6,7 @@
 #include <gazebo/common/common.hh>
 #include <stdio.h>
 #include <math.h>
+#include <Eigen/Eigen>
 
 namespace gazebo
 {
@@ -20,6 +21,7 @@ namespace gazebo
   	double velocity;
   	bool orientation;
     bool loop;
+    bool sinWave;
     double angularVelocity;
 
   	std::vector<ignition::math::Vector3d> path;
@@ -28,6 +30,11 @@ namespace gazebo
 
   public: 
     void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
+    void linear(const double &ts, const std::vector<std::vector<double>> &path, const std::vector<double> &time, std::vector<std::vector<double>> &traj, std::vector<double> &t);
+    void sine(const double &ts, const std::vector<std::vector<double>> &path, const std::vector<double> &time, std::vector<std::vector<double>> &traj, std::vector<double> &t);
+    void lls(const double &ts, const std::vector<std::vector<double>> &path, const std::vector<double> &time, std::vector<std::vector<double>> &traj, std::vector<double> &t, const int &order);
+    Eigen::MatrixXd fit(const Eigen::MatrixXd &x, const Eigen::MatrixXd &y, const Eigen::MatrixXd &px, const int &order);
+    Eigen::MatrixXd vandermonde(const Eigen::MatrixXd &x, const int &order);
     std::vector<double>& interpolateAngle(double start, double end, double dx);
   };
 
