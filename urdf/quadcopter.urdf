@@ -25,6 +25,8 @@
   </gazebo>
 
 
+
+
   <gazebo>
     <plugin name='quadcopter_gazebo_plugin' filename='libquadcopterPlugin.so'>
         <bodyName>base_link</bodyName>
