@@ -18,6 +18,54 @@
         <falloff>0</falloff>
       </spot>
     </light>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_bitmask>65535</collide_bitmask>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <atmosphere type='adiabatic'/>
@@ -39,14 +87,14 @@
       <elevation>0</elevation>
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
-    <model name='tunnel_s_shape'>
+    <model name='tunnel_exp'>
       <static>1</static>
-      <link name='tunnel_s_shape'>
+      <link name='tunnel_link'>
         <collision name='collision'>
           <geometry>
             <mesh>
-              <scale>1 1 1</scale>
-              <uri>model://tunnel_s_shape/meshes/tunnel_s_shape.dae</uri>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>model://tunnel_exp/tunnel_experiment.STL</uri>
             </mesh>
           </geometry>
           <max_contacts>10</max_contacts>
@@ -66,8 +114,8 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <scale>1 1 1</scale>
-              <uri>model://tunnel_s_shape/meshes/tunnel_s_shape.dae</uri>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>model://tunnel_exp/tunnel_experiment.STL</uri>
             </mesh>
           </geometry>
         </visual>
@@ -75,77 +123,28 @@
         <enable_wind>0</enable_wind>
         <kinematic>0</kinematic>
       </link>
-      <pose>-0.312207 -0.002697 0 0 -0 0</pose>
-    </model>
-    <model name='tunnel_wall'>
-      <pose>58.6821 -0.173988 0 0 -0 0</pose>
-      <link name='Wall_0'>
-        <collision name='Wall_0_Collision'>
-          <geometry>
-            <box>
-              <size>9.15 0.15 8.5</size>
-            </box>
-          </geometry>
-          <pose>0 0 4.25 0 -0 0</pose>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-            <friction>
-              <torsional>
-                <ode/>
-              </torsional>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <visual name='Wall_0_Visual'>
-          <pose>0 0 4.25 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>9.15 0.15 8.5</size>
-            </box>
-          </geometry>
-          <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>0.760784 0.662745 0.627451 1</ambient>
-          </material>
-          <meta>
-            <layer>0</layer>
-          </meta>
-        </visual>
-        <pose>7.4625 0 0 0 -0 1.5708</pose>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-      </link>
-      <static>1</static>
+      <pose>-0.496931 -0.411337 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>0 0</sim_time>
-      <real_time>0 0</real_time>
-      <wall_time>1667850482 99247297</wall_time>
-      <iterations>0</iterations>
-      <model name='tunnel_s_shape'>
-        <pose>-0.5 0 0 0 -0 0</pose>
+      <sim_time>101 861000000</sim_time>
+      <real_time>122 917770217</real_time>
+      <wall_time>1728506500 936325338</wall_time>
+      <iterations>101861</iterations>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
-        <link name='tunnel_s_shape'>
-          <pose>-0.5 0 0 0 -0 0</pose>
+        <link name='link'>
+          <pose>0 0 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='tunnel_wall'>
-        <pose>58.6821 0 0 0 -0 0</pose>
+      <model name='tunnel_exp'>
+        <pose>28 4.8 -0.6 1.5707 -0 -1.5707</pose>
         <scale>1 1 1</scale>
-        <link name='Wall_0'>
-          <pose>66.1446 0 0 0 -0 1.5708</pose>
+        <link name='tunnel_link'>
+          <pose>28 4.8 -0.6 1.5707 -0 -1.5707</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -157,7 +156,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-71.2892 -7.98623 50.3402 0 0.4538 0.060216</pose>
+        <pose>69.7724 -58.5438 71.6218 0 0.707643 2.1082</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
