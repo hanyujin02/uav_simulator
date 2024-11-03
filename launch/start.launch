@@ -29,10 +29,11 @@
 
   <!-- <arg name="world_name" value="$(find uav_simulator)/worlds/corridor/corridor_static.world" /> -->
   <!-- <arg name="world_name" value="$(find uav_simulator)/worlds/corridor/corridor_dynamic_9.world" /> -->
+  <arg name="world_name" value="$(find uav_simulator)/worlds/mill19/floor1_dynamic.world" />
 
   <!-- <arg name="world_name" value="$(find uav_simulator)/worlds/tunnel/tunnel_fukushima_static.world" /> -->
   <!-- <arg name="world_name" value="$(find uav_simulator)/worlds/tunnel/tunnel_fukushima_static_box.world" /> -->
-  <arg name="world_name" value="$(find uav_simulator)/worlds/tunnel/tunnel_fukushima_dynamic1.world" />
+  <!-- <arg name="world_name" value="$(find uav_simulator)/worlds/tunnel/tunnel_fukushima_dynamic1.world" /> -->
   <!-- <arg name="world_name" value="$(find uav_simulator)/worlds/tunnel/tunnel_basic_static.world" /> -->
   <!-- <arg name="world_name" value="$(find uav_simulator)/worlds/tunnel/tunnel_c_shape_basic_static.world" /> -->
   <!-- <arg name="world_name" value="$(find uav_simulator)/worlds/tunnel/tunnel_dynamic_1.world" /> -->
