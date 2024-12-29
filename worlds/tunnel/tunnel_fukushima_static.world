@@ -94,7 +94,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>model://tunnel_exp/tunnel_experiment.STL</uri>
+              <uri>model://tunnel_exp/tunnel_experiment_58m.STL</uri>
             </mesh>
           </geometry>
           <max_contacts>10</max_contacts>
@@ -115,7 +115,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>model://tunnel_exp/tunnel_experiment.STL</uri>
+              <uri>model://tunnel_exp/tunnel_experiment_58m.STL</uri>
             </mesh>
           </geometry>
         </visual>
@@ -141,10 +141,10 @@
         </link>
       </model>
       <model name='tunnel_exp'>
-        <pose>28 4.8 -0.6 1.5707 -0 -1.5707</pose>
+        <pose>56 4.8 -0.6 1.5707 -0 -1.5707</pose>
         <scale>1 1 1</scale>
         <link name='tunnel_link'>
-          <pose>28 4.8 -0.6 1.5707 -0 -1.5707</pose>
+          <pose>56 4.8 -0.6 1.5707 -0 -1.5707</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>

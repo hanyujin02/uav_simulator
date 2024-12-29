@@ -7,7 +7,7 @@
         <geometry>
           <mesh>
           <scale>0.001 0.001 0.001</scale>
-            <uri>model://tunnel_exp/tunnel_experiment.STL</uri>
+            <uri>model://tunnel_exp/tunnel_experiment_58m.STL</uri>
           </mesh>
         </geometry>
       </collision>
@@ -15,7 +15,7 @@
         <geometry>
           <mesh>
           <scale>0.001 0.001 0.001</scale>
-            <uri>model://tunnel_exp/tunnel_experiment.STL</uri>
+            <uri>model://tunnel_exp/tunnel_experiment_58m.STL</uri>
           </mesh>
         </geometry>
       </visual>
